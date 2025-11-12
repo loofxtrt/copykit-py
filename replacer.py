@@ -9,6 +9,29 @@ def normalize_svg_name(name: str) -> str:
     
     return name
 
+def make_symlink_real(symlink: Path):
+    if not symlink.exists():
+        logger.error(f'o arquivo não existe: {symlink}')
+        return
+
+    if not symlink.is_symlink():
+        logger.info(f'{symlink}, já é um arquivo real')
+        return
+    
+    points_to = symlink.resolve() # caminho do ícone real (já considerando symlinks que apontam pra outros symlinks também)
+
+    if not points_to.exists():
+        logger.info(f'{symlink} aponta pra um caminho inexistente: {points_to}')
+
+    try:
+        symlink.unlink()
+        shutil.copy2(points_to, symlink)
+        
+        logger.success(f'symlink {symlink} transformado em um arquivo real')
+    except Exception as err:
+        logger.error(f'erro ao transformar o symlink {symlink} em um arquivo real')
+        logger.exception(err)
+
 def replace(
     json_file: Path,
     target_directory: Path,
@@ -44,27 +67,7 @@ def replace(
             make_real = normalize_svg_name(make_real)
             link = target_directory / make_real
 
-            if not link.exists():
-                logger.error(f'o alvo de make-real não existe: {link}')
-                continue
-
-            if not link.is_symlink():
-                logger.info(f'o alvo de make-real, {link}, já é um arquivo real')
-                continue
-            
-            points_to = link.resolve() # caminho do ícone real (já considerando symlinks que apontam pra outros symlinks também)
-
-            if not points_to.exists():
-                logger.info(f'{link} aponta pra um caminho inexistente: {points_to}')
-
-            try:
-                link.unlink()
-                shutil.copy2(points_to, link)
-                
-                logger.success(f'symlink {link} transformado em um arquivo real')
-            except Exception as err:
-                logger.error(f'erro ao transformar o symlink {link} em um arquivo real')
-                logger.exception(err)
+            make_symlink_real(link)
 
         # se não especificar pra ignorar a chave, obtém ela e considera como um alias
         # ex: "discord": {aliases: ["com.discord"]} usaria "discord" como um alias também
