@@ -1,380 +1,428 @@
 {
     "discord": {
         "substitute": "kora_discord",
-        "aliases": [
-            "discord",
-            "discord-bin",
-            "discord-ptb",
-            "solstice-discord-discord",
-            "com.discordapp.Discord"
+        "targets": [
+            { "action": "replace", "icon": "discord" },
+            { "action": "symlink", "icon": "discord-bin" },
+            { "action": "symlink", "icon": "discord-ptb" },
+            { "action": "symlink", "icon": "solstice-discord-discord" },
+            { "action": "symlink", "icon": "com.discordapp.Discord" }
         ]
     },
     "discord-canary": {
         "substitute": "kora_discord-canary",
-        "aliases": [
-            "discord-canary",
-            "com.discordapp.DiscordCanary"
+        "targets": [
+            { "action": "replace", "icon": "discord-canary" },
+            { "action": "symlink", "icon": "com.discordapp.DiscordCanary" }
         ]
     },
     "discord-development": {
         "substitute": "kora_discord-development",
-        "aliases": [
-            "discord-development"
+        "targets": [
+            { "action": "replace", "icon": "discord-development" }
         ]
     },
     "spotify": {
         "substitute": "marwaita_spotify",
-        "aliases": [
-            "com.spotify.Client",
-            "nuvolaplayer3_spotify",
-            "spotify",
-            "spotify-client",
-            "solstice-spotify-spotify",
-            "spotify-qt"
+        "targets": [
+            { "action": "replace", "icon": "spotify" },
+            { "action": "symlink", "icon": "com.spotify.Client" },
+            { "action": "symlink", "icon": "nuvolaplayer3_spotify" },
+            { "action": "symlink", "icon": "spotify-client" },
+            { "action": "symlink", "icon": "solstice-spotify-spotify" },
+            { "action": "symlink", "icon": "spotify-qt" }
         ]
     },
     "obs": {
         "substitute": "kora_obs",
-        "aliases": [
-            "com.obsproject.Studio",
-            "obs"
+        "targets": [
+            { "action": "replace", "icon": "obs" },
+            { "action": "symlink", "icon": "com.obsproject.Studio" }
         ]
     },
     "krita": {
         "substitute": "marwaita_krita",
-        "aliases": [
-            "calligrakrita",
-            "calligrakrita2",
-            "org.kde.krita"
+        "targets": [
+            { "action": "replace", "icon": "krita" },
+            { "action": "symlink", "icon": "calligrakrita" },
+            { "action": "symlink", "icon": "calligrakrita2" },
+            { "action": "symlink", "icon": "org.kde.krita" }
         ]
     },
     "gimp": {
         "substitute": "breeze-dark_gimp",
-        "aliases": [
-            "gimp",
-            "org.gimp.GIMP"
+        "targets": [
+            { "action": "replace", "icon": "gimp" },
+            { "action": "symlink", "icon": "org.gimp.GIMP" }
         ]
     },
     "godot": {
         "substitute": "plasmax_godot",
-        "aliases": [
-            "godot",
-            "godot-mono",
-            "lutris_godot-engine",
-            "org.godotengine.Godot",
-            "org.godotengine.Godot3"
+        "targets": [
+            { "action": "replace", "icon": "godot" },
+            { "action": "symlink", "icon": "godot-mono" },
+            { "action": "symlink", "icon": "lutris_godot-engine" },
+            { "action": "symlink", "icon": "org.godotengine.Godot" },
+            { "action": "symlink", "icon": "org.godotengine.Godot3" }
         ]
     },
     "inkscape": {
         "substitute": "plasmax_inkscape",
-        "aliases": [
-            "inkscape",
-            "inkscape-logo",
-            "org.inkscape.Inkscape"
+        "targets": [
+            { "action": "replace", "icon": "inkscape" },
+            { "action": "symlink", "icon": "inkscape-logo" },
+            { "action": "symlink", "icon": "org.inkscape.Inkscape" },
+            { "action": "symlink", "icon": "org.inkscape.Inkscape-symbolic" }
         ]
     },
     "blender": {
         "substitute": "blender",
-        "aliases": [
-            "org.blender.Blender"
+        "targets": [
+            { "action": "symlink", "icon": "blender" },
+            { "action": "symlink", "icon": "Blender" },
+            { "action": "symlink", "icon": "blender-symbolic" },
+            { "action": "symlink", "icon": "org.blender.Blender" }
         ]
     },
     "obsidian": {
         "substitute": "kora_obsidian",
-        "aliases": [
-            "md.obsidian.Obsidian",
-            "obsidian",
-            "appimagekit-obsidian"
+        "targets": [
+            { "action": "symlink", "icon": "obsidian" },
+            { "action": "symlink", "icon": "md.obsidian.Obsidian" },
+            { "action": "symlink", "icon": "appimagekit-obsidian" }
         ]
     },
     "steam": {
         "substitute": "marwaita_steam",
-        "aliases": [
-            "steam",
-            "steam-icon",
-            "steam-launcher",
-            "steamos-logo-icon",
-            "steampowered",
-            "steamskinmanager"
+        "targets": [
+            { "action": "replace", "icon": "steam" },
+            { "action": "symlink", "icon": "steam-icon" },
+            { "action": "symlink", "icon": "steam-launcher" },
+            { "action": "symlink", "icon": "steamos-logo-icon" },
+            { "action": "symlink", "icon": "steampowered" },
+            { "action": "symlink", "icon": "steamskinmanager" },
+            { "action": "symlink", "icon": "com.valvesoftware.Steam" }
         ]
     },
     "aseprite": {
         "substitute": "aseprite",
-        "aliases": [
-            "lutris_aseprite"
+        "targets": [
+            { "action": "symlink", "icon": "aseprite" },
+            { "action": "symlink", "icon": "lutris_aseprite" }
         ]
     },
     "bitwig": {
         "substitute": "kora_bitwig",
-        "aliases": [
-            "bitwig-studio",
-            "com.bitwig.BitwigStudio"
+        "targets": [
+            { "action": "replace", "icon": "bitwig" },
+            { "action": "symlink", "icon": "bitwig-studio" },
+            { "action": "symlink", "icon": "com.bitwig.BitwigStudio" }
         ]
     },
     "pureref": {
-        "substitute": "kora_pureref"
+        "substitute": "kora_pureref",
+        "targets": [
+            { "action": "replace", "icon": "pureref" }
+        ]
     },
     "endeavouros": {
         "substitute": "endeavouros",
-        "aliases": [
-            "distributor-logo-endeavouros",
-            "endeavouros",
-            "endeavouros-icon"
+        "targets": [
+            { "action": "replace", "icon": "endeavouros" },
+            { "action": "symlink", "icon": "distributor-logo-endeavouros" },
+            { "action": "symlink", "icon": "endeavouros-icon" }
         ]
     },
     "sqlitebrowser": {
         "substitute": "sqlitebrowser",
-        "aliases": [
-            "org.sqlitebrowser.sqlitebrowser"
+        "targets": [
+            { "action": "replace", "icon": "sqlitebrowser" },
+            { "action": "symlink", "icon": "org.sqlitebrowser.sqlitebrowser" },
+            { "action": "symlink", "icon": "sqliteman" }
         ]
     },
     "audacity": {
         "substitute": "yosa-max_audacity",
-        "aliases": [
-            "org.audacityteam.Audacity",
-            "application-x-audacity-project",
-            "audacity16",
-            "audacity32"
+        "targets": [
+            { "action": "replace", "icon": "audacity" },
+            { "action": "symlink", "icon": "org.audacityteam.Audacity" },
+            { "action": "symlink", "icon": "application-x-audacity-project" },
+            { "action": "symlink", "icon": "audacity16" },
+            { "action": "symlink", "icon": "audacity32" }
         ]
     },
     "vscodium": {
         "substitute": "codium",
-        "aliases": [
-            "com.vscodium.codium"
+        "targets": [
+            { "action": "replace", "icon": "vscodium" },
+            { "action": "symlink", "icon": "com.vscodium.codium" }
         ]
     },
     "appimagelauncher": {
         "substitute": "flat-remix-blue-dark_appimagelauncher",
-        "aliases": [
-            "AppImageLauncher"
+        "targets": [
+            { "action": "replace", "icon": "appimagelauncher" },
+            { "action": "symlink", "icon": "AppImageLauncher" }
         ]
     },
     "android-studio": {
         "substitute": "fairywren_dark_android-studio",
-        "aliases": [
-            "android-studio-beta"
+        "targets": [
+            { "action": "replace", "icon": "android-studio" },
+            { "action": "symlink", "icon": "android-studio-beta" }
         ]
     },
     "android-studio-canary": {
-        "substitute": "fairywren_dark_android-studio-canary"
+        "substitute": "fairywren_dark_android-studio-canary",
+        "targets": [
+            { "action": "replace", "icon": "android-studio-canary" }
+        ]
     },
     "btop": {
         "substitute": "kora_btop",
-        "force-creation-in": "apps/scalable"
+        "targets": [
+            { "action": "replace", "icon": "btop" }
+        ]
     },
     "ark": {
         "substitute": "qogir_ark",
-        "aliases": [
-            "org.kde.ark",
-            "accessories-archiver",
-            "archive-manager",
-            "archivemanager",
-            "gvfsd-archive-file",
-            "lxqt-archiver",
-            "org.gnome.ArchiveManager",
-            "utilities-file-archiver",
-            "xarchiver",
-            "file-roller"
+        "targets": [
+            { "action": "replace", "icon": "ark" },
+            { "action": "symlink", "icon": "org.kde.ark" },
+            { "action": "symlink", "icon": "accessories-archiver" },
+            { "action": "symlink", "icon": "archive-manager" },
+            { "action": "symlink", "icon": "archivemanager" },
+            { "action": "symlink", "icon": "gvfsd-archive-file" },
+            { "action": "symlink", "icon": "lxqt-archiver" },
+            { "action": "symlink", "icon": "org.gnome.ArchiveManager" },
+            { "action": "symlink", "icon": "utilities-file-archiver" },
+            { "action": "symlink", "icon": "xarchiver" },
+            { "action": "symlink", "icon": "file-roller" }
         ]
     },
     "github-desktop": {
         "substitute": "kora_github-desktop",
-        "aliases": [
-            "appimagekit-github-desktop",
-            "io.github.shiftey.Desktop"
+        "targets": [
+            { "action": "replace", "icon": "github-desktop" },
+            { "action": "symlink", "icon": "appimagekit-github-desktop" },
+            { "action": "symlink", "icon": "io.github.shiftey.Desktop" }
         ]
     },
     "color-picker": {
         "substitute": "marwaita_color-picker",
-        "aliases": [
-            "gcolor3",
-            "nl.hjdskes.gcolor3"
+        "targets": [
+            { "action": "replace", "icon": "color-picker" },
+            { "action": "symlink", "icon": "gcolor3" },
+            { "action": "symlink", "icon": "nl.hjdskes.gcolor3" },
+            { "action": "symlink", "icon": "colorgrab" },
+            { "action": "symlink", "icon": "com.github.ronnydo.colorpicker" },
+            { "action": "symlink", "icon": "fill-color" },
+            { "action": "symlink", "icon": "folder_color_picker" },
+            { "action": "symlink", "icon": "gnome-color-chooser" },
+            { "action": "symlink", "icon": "gtk-select-color" },
+            { "action": "symlink", "icon": "nl.hjdskes.gcolor3" },
+            { "action": "symlink", "icon": "nl.hjdskes.gcolor3-symbolic" },
+            { "action": "symlink", "icon": "org.kde.plasma.colorpicker" }
         ]
     },
     "kvantum": {
-        "substitute": "kora_kvantum"
+        "substitute": "kora_kvantum",
+        "targets": [
+            { "action": "replace", "icon": "kvantum" }
+        ]
     },
     "fspy": {
         "substitute": "kora_fspy",
-        "aliases": [
-            "appimagekit-fspy",
-            "appimagekit_7b72cc93eb7f580b01420d811fd0cc64_fspy"
+        "targets": [
+            { "action": "replace", "icon": "fspy" },
+            { "action": "symlink", "icon": "appimagekit-fspy" }
         ]
     },
     "cmake": {
         "substitute": "kora_cmake",
-        "aliases": [
-            "cmake",
-            "cmake-gui",
-            "CMakeSetup",
-            "CMakeSetup32"
+        "targets": [
+            { "action": "replace", "icon": "cmake" },
+            { "action": "symlink", "icon": "cmake-gui" },
+            { "action": "symlink", "icon": "CMakeSetup" },
+            { "action": "symlink", "icon": "CMakeSetup32" }
         ]
     },
     "minecraft": {
         "substitute": "kora_minecraft",
-        "aliases": [
-            "com.mojang.Minecraft",
-            "minecraft-launcher"
+        "targets": [
+            { "action": "replace", "icon": "minecraft" },
+            { "action": "symlink", "icon": "com.mojang.Minecraft" },
+            { "action": "symlink", "icon": "minecraft-launcher" }
         ]
     },
     "librewolf": {
         "substitute": "librewolf",
-        "aliases": [
-            "appimagekit-librewolf",
-            "io.gitlab.LibreWolf",
-            "io.gitlab.librewolf-community"
+        "targets": [
+            { "action": "replace", "icon": "librewolf" },
+            { "action": "symlink", "icon": "appimagekit-librewolf" },
+            { "action": "symlink", "icon": "io.gitlab.LibreWolf" },
+            { "action": "symlink", "icon": "io.gitlab.librewolf-community" }
         ]
     },
     "mpv": {
         "substitute": "breeze-dark_mpv",
-        "aliases": [
-            "mplayer"
+        "targets": [
+            { "action": "replace", "icon": "mpv" },
+            { "action": "symlink", "icon": "mplayer" },
+            { "action": "symlink", "icon": "gnome-mpv" },
+            { "action": "symlink", "icon": "io.github.GnomeMpv" },
+            { "action": "symlink", "icon": "io.mpv.Mpv" },
+            { "action": "symlink", "icon": "mpv-icon-8bit-64x64" },
+            { "action": "symlink", "icon": "mpv-symbolic"}
         ]
     },
     "protoncalendar": {
-        "substitute": "kora_protoncalendar"
+        "substitute": "kora_protoncalendar",
+        "targets": [
+            { "action": "replace", "icon": "protoncalendar" }
+        ]
     },
     "libresprite": {
         "substitute": "libresprite",
-        "aliases": [
-            "com.github.libresprite.LibreSprite"
+        "targets": [
+            { "action": "replace", "icon": "libresprite" },
+            { "action": "symlink", "icon": "com.github.libresprite.LibreSprite" }
         ]
     },
     "roblox-player": {
         "substitute": "roblox-player",
-        "aliases": [
-            "io.github.vinegarhq.Vinegar.player",
-            "net.brinkervii.grapejuice.robloxplayer",
-            "grapejuice-roblox-player"
-        ],
-        "ignore-key": true
+        "targets": [
+            { "action": "replace", "icon": "io.github.vinegarhq.Vinegar.player" },
+            { "action": "symlink", "icon": "net.brinkervii.grapejuice.robloxplayer" },
+            { "action": "symlink", "icon": "grapejuice-roblox-player" }
+        ]
     },
     "roblox-studio": {
         "substitute": "roblox-studio",
-        "aliases": [
-            "io.github.vinegarhq.Vinegar.studio",
-            "grapejuice-roblox-studio",
-            "net.brinkervii.grapejuice.robloxstudio",
-            "org.vinegarhq.Vinegar.studio"
-        ],
-        "ignore-key": true
+        "targets": [
+            { "action": "replace", "icon": "io.github.vinegarhq.Vinegar.studio" },
+            { "action": "symlink", "icon": "grapejuice-roblox-studio" },
+            { "action": "symlink", "icon": "net.brinkervii.grapejuice.robloxstudio" },
+            { "action": "symlink", "icon": "org.vinegarhq.Vinegar.studio" }
+        ]
     },
     "sober": {
         "substitute": "roblox-sober",
-        "aliases": [
-            "org.vinegarhq.Sober"
-        ],
-        "ignore-key": true
+        "targets": [
+            { "action": "create", "icon": "org.vinegarhq.Sober" }
+        ]
     },
     "vinegar": {
         "substitute": "roblox-vinegar",
-        "aliases": [
-            "io.github.vinegarhq.Vinegar",
-            "org.vinegarhq.Vinegar"
-        ],
-        "ignore-key": true
+        "targets": [
+            { "action": "replace", "icon": "io.github.vinegarhq.Vinegar" },
+            { "action": "symlink", "icon": "org.vinegarhq.Vinegar" }
+        ]
     },
     "java21-openjdk": {
-        "substitute": "kora_java"
+        "substitute": "kora_java",
+        "targets": [
+            { "action": "create", "icon": "java21-openjdk" }
+        ]
     },
     "trenchbroom": {
         "substitute": "trenchbroom",
-        "aliases": [
-            "com.kristianduske.TrenchBroom"
-        ],
-        "ignore-key": true
+        "targets": [
+            { "action": "create", "icon": "com.kristianduske.TrenchBroom" }
+        ]
     },
     "animeeffects": {
         "substitute": "animeeffects",
-        "aliases": [
-            "AnimeEffects"
-        ],
-        "ignore-key": true
+        "targets": [
+            { "action": "create", "icon": "AnimeEffects" }
+        ]
     },
     "bluemail": {
         "substitute": "papirus_bluemail",
-        "aliases": [
-            "net.blix.BlueMail"
+        "targets": [
+            { "action": "replace", "icon": "bluemail" },
+            { "action": "symlink", "icon": "net.blix.BlueMail" }
         ]
     },
     "mail-apps": {
         "substitute": "papirus_internet-mail",
-        "ignore-key": true,
-        "aliases": [
-            "claws-mail-128x128",
-            "claws-mail-32x32",
-            "claws-mail-64x64",
-            "claws-mail",
-            "e-mail",
-            "clawsker",
-            "kube-mail",
-            "xfce-newmail",
-            "unity-mail",
-            "yast-mail",
-            "email-client",
-            "email",
-            "x-office-mail",
-            "xfce-mail",
-            "io.elementary.mail",
-            "unity-webapps-mail-ru",
-            "ximian-evolution-email",
-            "internet-mail",
-            "deepin-mail",
-            "kmailcvt",
-            "org.xfce.mailreader",
-            "xfmail",
-            "redhat-email",
-            "mail-client",
-            "mail-generic",
-            "mail-notification",
-            "mail",
-            "mailnag",
-            "mailru-mail.ru",
-            "mail_generic",
-            "package_internet_email",
-            "kmail",
-            "kmail2",
-            "evolution-mail",
-            "preferences-mail",
-            "internet_mail",
-            "org.claws_mail.Claws-Mail"
+        "targets": [
+            { "action": "replace", "icon": "mail-generic" },
+            { "action": "symlink", "icon": "claws-mail-128x128" },
+            { "action": "symlink", "icon": "claws-mail-32x32" },
+            { "action": "symlink", "icon": "claws-mail-64x64" },
+            { "action": "symlink", "icon": "claws-mail" },
+            { "action": "symlink", "icon": "e-mail" },
+            { "action": "symlink", "icon": "clawsker" },
+            { "action": "symlink", "icon": "kube-mail" },
+            { "action": "symlink", "icon": "xfce-newmail" },
+            { "action": "symlink", "icon": "unity-mail" },
+            { "action": "symlink", "icon": "yast-mail" },
+            { "action": "symlink", "icon": "email-client" },
+            { "action": "symlink", "icon": "email" },
+            { "action": "symlink", "icon": "x-office-mail" },
+            { "action": "symlink", "icon": "xfce-mail" },
+            { "action": "symlink", "icon": "io.elementary.mail" },
+            { "action": "symlink", "icon": "unity-webapps-mail-ru" },
+            { "action": "symlink", "icon": "ximian-evolution-email" },
+            { "action": "symlink", "icon": "internet-mail" },
+            { "action": "symlink", "icon": "deepin-mail" },
+            { "action": "symlink", "icon": "kmailcvt" },
+            { "action": "symlink", "icon": "org.xfce.mailreader" },
+            { "action": "symlink", "icon": "xfmail" },
+            { "action": "symlink", "icon": "mail" },
+            { "action": "symlink", "icon": "redhat-email" },
+            { "action": "symlink", "icon": "mail-client" },
+            { "action": "symlink", "icon": "mail-notification" },
+            { "action": "symlink", "icon": "mailnag" },
+            { "action": "symlink", "icon": "mailru-mail.ru" },
+            { "action": "symlink", "icon": "mail_generic" },
+            { "action": "symlink", "icon": "package_internet_email" },
+            { "action": "symlink", "icon": "kmail" },
+            { "action": "symlink", "icon": "kmail2" },
+            { "action": "symlink", "icon": "evolution-mail" },
+            { "action": "symlink", "icon": "preferences-mail" },
+            { "action": "symlink", "icon": "internet_mail" },
+            { "action": "symlink", "icon": "org.claws_mail.Claws-Mail" }
         ]
     },
     "org.kde.merkuro.mail": {
-        "substitute": "kora_merkuro-mail"
+        "substitute": "kora_merkuro-mail",
+        "targets": [
+            { "action": "replace", "icon": "org.kde.merkuro.mail" }
+        ]
     },
     "vesktop": {
-        "ignore-key": true,
         "substitute": "vesktop",
-        "aliases": [
-            "dev.vencord.Vesktop"
+        "targets": [
+            { "action": "replace", "icon": "dev.vencord.Vesktop" }
         ]
     },
     "calculator": {
-        "ignore-key": true,
         "substitute": "calculator",
-        "aliases": [
-            "accessories-calculator",
-            "calculator",
-            "calc",
-            "deepin-calculator",
-            "gcalculator",
-            "gnome-calculator",
-            "io.elementary.calculator",
-            "io.liri.Calculator",
-            "kcalc",
-            "org.gnome.Calculator",
-            "org.kde.kcalc",
-            "org.kde.plasma.calculator",
-            "xcalc",
-            "xfce4-calculator-plugin"
+        "targets": [
+            { "action": "replace", "icon": "accessories-calculator" },
+            { "action": "symlink", "icon": "calculator" },
+            { "action": "symlink", "icon": "calculator" },
+            { "action": "symlink", "icon": "calc" },
+            { "action": "symlink", "icon": "deepin-calculator" },
+            { "action": "symlink", "icon": "gcalculator" },
+            { "action": "symlink", "icon": "gnome-calculator" },
+            { "action": "symlink", "icon": "io.elementary.calculator" },
+            { "action": "symlink", "icon": "io.liri.Calculator" },
+            { "action": "symlink", "icon": "kcalc" },
+            { "action": "symlink", "icon": "org.gnome.Calculator" },
+            { "action": "symlink", "icon": "org.kde.kcalc" },
+            { "action": "symlink", "icon": "org.kde.plasma.calculator" },
+            { "action": "symlink", "icon": "xcalc" },
+            { "action": "symlink", "icon": "xfce4-calculator-plugin" }
         ]
     },
     "filelight": {
         "substitute": "breeze-dark_filelight",
-        "aliases": [
-            "org.kde.filelight"
-        ],
-        "make-real": "filelight"
+        "targets": [
+            { "action": "replace", "icon": "filelight" },
+            { "action": "symlink", "icon": "org.kde.filelight" }
+        ]
     }
 }

@@ -9,35 +9,24 @@ def normalize_svg_name(name: str) -> str:
     
     return name
 
-def make_symlink_real(symlink: Path):
-    if not symlink.exists():
-        logger.error(f'o arquivo não existe: {symlink}')
-        return
-
-    if not symlink.is_symlink():
-        logger.info(f'{symlink}, já é um arquivo real')
-        return
-    
-    points_to = symlink.resolve() # caminho do ícone real (já considerando symlinks que apontam pra outros symlinks também)
-
-    if not points_to.exists():
-        logger.info(f'{symlink} aponta pra um caminho inexistente: {points_to}')
+def copy(substitute: Path, destination: Path, operation: str):
+    """
+    só copia e lida normalmente com um arquivo
+    o único motivo de ser uma função separada é pra não repetir o código entre replace e create
+    """
 
     try:
-        symlink.unlink()
-        shutil.copy2(points_to, symlink)
-        
-        logger.success(f'symlink {symlink} transformado em um arquivo real')
+        shutil.copy2(substitute, destination)
+        logger.success(f'arquivo {operation}: {destination}')
     except Exception as err:
-        logger.error(f'erro ao transformar o symlink {symlink} em um arquivo real')
+        logger.error(f'erro ao copiar o substituto {substitute} para {destination}')
         logger.exception(err)
 
 def replace(
     json_file: Path,
     target_directory: Path,
     substitutes_directory: Path,
-    skip_symlinks: bool = True,
-    aliases_as_symlink: bool = False
+    skip_symlinks: bool = True
     ):
     if not target_directory.is_dir() or not substitutes_directory.is_dir():
         logger.error('alguns dos caminhos passados não são diretórios')
@@ -52,9 +41,14 @@ def replace(
 
     for key, entry in data.items():
         substitute = entry.get('substitute')
-        aliases = entry.get('aliases', [])
-        ignore_key = entry.get('ignore-key', False)
-        make_real = entry.get('make-real')
+        targets = entry.get('targets')
+
+        if not targets:
+            logger.error(f'nenhum target encontrado para substituir {key}')
+            continue
+        if not substitute:
+            logger.error(f'substituto não encontrado para {key}')
+            continue
 
         substitute = normalize_svg_name(substitute)
         substitute = substitutes_directory / substitute
@@ -62,37 +56,48 @@ def replace(
             logger.error(f'substituto inválido: {substitute}')
             continue
 
-        # forçar o ícone especificado no make real a ser um arquivo real em vez de um symlink
-        if make_real is not None:
-            make_real = normalize_svg_name(make_real)
-            link = target_directory / make_real
-
-            make_symlink_real(link)
-
-        # se não especificar pra ignorar a chave, obtém ela e considera como um alias
-        # ex: "discord": {aliases: ["com.discord"]} usaria "discord" como um alias também
-        if not ignore_key:
-            aliases.append(key)
+        master = None
 
         # reconstruir o caminho do ícone e fazer as mudanças
-        for a in aliases:
-            a = normalize_svg_name(a) # não se espera que o alias termine em svg, mas se terminar, não tem problema
-            icon = target_directory / a
-            
-            if not icon.exists() or not icon.is_file():
-                logger.error(f'arquivo inválido: {icon}')
+        for t in targets:
+            icon = t.get('icon')
+            action = t.get('action')
+            if not action:
+                logger.error(f'ação não definida para {icon}')
                 continue
 
-            if icon.is_symlink() and skip_symlinks:
-                logger.info(f'symlink pulado: {icon}')
-                continue
+            normalized = normalize_svg_name(icon) # não se espera que termine em svg, mas se terminar, não tem problema
+            destination = target_directory / normalized
+
+            if action == 'symlink':
+                if not master:
+                    logger.error(f'erro ao criar o symlink. um master ainda não foi definido para {icon}. o primeiro action de um target nunca deve ser um symlink')
+                    continue
+                    
+                link = destination
+                if link.exists() or link.is_symlink():
+                    link.unlink()
+
+                link.symlink_to(master)
+                logger.success(f'symlink {link} criado para {destination}')
+            else:
+                master = destination
+                logger.success(f'master definido como {master}')
+
+            if action == 'replace':
+                if not icon.exists() or not icon.is_file():
+                    logger.error(f'arquivo inválido: {icon}')
+                    continue
+
+                if icon.is_symlink() and skip_symlinks:
+                    logger.info(f'symlink pulado: {icon}')
+                    continue
             
-            try:
-                shutil.copy2(substitute, icon)
-                logger.success(f'arquivo substituído: {icon}')
-            except Exception as err:
-                logger.error(f'erro ao copiar o substituto {substitute} de {icon}')
-                logger.exception(err)
+                copy(substitute=substitute, destination=icon, operation='substituído')
+            
+            if action == 'create':
+                copy(substitute=substitute, destination=icon, operation='criado')
+
 
 replace(
     json_file=Path('teste.json'),
