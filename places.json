@@ -1,6 +1,12 @@
 {
-    "folder-mega": {
-        "substitute": "kora_folder-mega",
-        "make_symli"
+    "folder-3dprint": {
+        "targets": [
+            { "action": "remove", "icon": "folder-3dprint" }
+        ]
+    },
+    "folder-go": {
+        "targets": [
+            { "action": "remove", "icon": "folder-go" }
+        ]
     }
 }

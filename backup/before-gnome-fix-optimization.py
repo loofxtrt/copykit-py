@@ -3,7 +3,7 @@ import shutil
 import logger
 from pathlib import Path
 
-def link_folders(icon_pack_root: Path, flavor_name: str = 'kora/blue'):
+def link_folders(icon_pack_root: Path, flavor: Path = 'kora/blue'):
     """
     função pra fazer todos os diretórios que podem ter flavors virarem symlinks
     isso NÃO substitui o copysym. isso é só o ponto de partida pra fazer o icon pack base
@@ -11,7 +11,7 @@ def link_folders(icon_pack_root: Path, flavor_name: str = 'kora/blue'):
     """
     
     # o flavor passado pode conter estrutura, tipo kora/blue
-    flavor = icon_pack_root / 'reserved' / 'folder-flavors' / flavor_name
+    flavor = icon_pack_root / 'reserved' / 'folder-flavors' / flavor
     if not flavor.exists() or not flavor.is_dir():
         logger.error(f'erro ao acessar o diretório do flavor: {flavor}')
         return
@@ -26,12 +26,8 @@ def link_folders(icon_pack_root: Path, flavor_name: str = 'kora/blue'):
     for p in places.iterdir():
         for f in flavor.iterdir():
             if f.name == p.name:
-                # usa ../../i.svg em vez de um path absoluto
-                # isso faz o symlink ser autocontido no icon pack e não quebrar fácil
-                relative = f'../../reserved/folder-flavors/{flavor_name}/{f.name}'
-                
                 p.unlink()
-                p.symlink_to(relative)
+                p.symlink_to(f)
         
         # caso especial pra consertar o ícone do gnome desktop
         # pq esse ícone, no kora original, tá duplicado e não é um symlink
@@ -42,11 +38,12 @@ def link_folders(icon_pack_root: Path, flavor_name: str = 'kora/blue'):
             'folder-megasync.svg': 'folder-mega.svg',
             'folder-google-drive': 'folder-gdrive.svg'
         }
-        for hc, master in hard_copies.items():
-            if p.name == hc:
-                p.unlink()
-                p.symlink_to(places / master)
-                logger.link(f'{hc} consertado')
+        for h_copy, master in hard_copies.items():
+        if p.name == 'gnome-desktop-config.svg':
+            p.unlink()
+            p.symlink_to(places / 'user-desktop.svg')
+            logger.link('gnome-desktop-config consertado')
+        elif p.name == 'folder-megasync.svg'
 
 def normalize_svg_name(name: str) -> str:
     if not name.endswith('.svg'):
@@ -83,29 +80,25 @@ def replace(
     skip_symlinks: bool = True,
     hard_replace: bool = True
     ):
-    if not target_directory.is_dir():
-        logger.error(f'{target_directory} não é um diretório')
-        return
-    elif not substitutes_directory.is_dir():
-        logger.error(f'{substitutes_directory} não é um diretório')
+    if not target_directory.is_dir() or not substitutes_directory.is_dir():
+        logger.error('alguns dos caminhos passados não são diretórios')
         return
     
     with json_file.open('r', encoding='utf-8') as f:
         data = json.load(f)
+    
     if not data:
         logger.error(f'os dados obtidos de {json_file} são inválidos')
         return
 
     for key, entry in data.items():
-        substitute = entry.get('substitute') # pode ser nulo se não precisar
+        substitute = entry.get('substitute')
         targets = entry.get('targets')
 
         if not targets:
             logger.error(f'nenhum target encontrado para substituir {key}')
             continue
-        
-        # ícone que vai ser referenciado pelos possíveis symlinks
-        # ele é definido com base no primeiro ícone que não tem a action como "symlink"
+
         master = None
 
         # reconstruir o caminho do ícone e fazer as mudanças
@@ -172,32 +165,19 @@ def replace(
                     logger.error(f'erro ao deletar {icon}')
                     logger.error(err)
 
-LOCAL = Path('/mnt/seagate/symlinks/kde-user-icons/copycat')
-REPO = Path('/mnt/seagate/symlinks/copycat-repo/copycat')
-SUBSTITUTES = Path('/mnt/seagate/symlinks/copykit-data/data/substitutes')
+# replace(
+#     json_file=Path('apps.json'),
+#     target_directory=Path('/mnt/seagate/symlinks/kde-user-icons/copycat/apps/scalable'),
+#     substitutes_directory=Path('/mnt/seagate/symlinks/copykit-data/data/substitutes/apps/')
+# )
 
-def run(root: Path = LOCAL):
-    targets = {
-        'apps': root / 'apps' / 'scalable',
-        'places': root / 'places' /  'scalable' 
-    }
+replace(
+    json_file=Path('places.json'),
+    target_directory=Path('/mnt/seagate/symlinks/kde-user-icons/copycat/places/scalable'),
+    substitutes_directory=Path('/mnt/seagate/symlinks/copykit-data/data/substitutes/places/')
+)
 
-    # atualizar tanto os apps quanto os places
-    # o places geralmente não envolve as pastas, já que o copysym é responsável por isso
-    for key, targ in targets.items():
-        _json = Path(f'{key}.json')
-
-        replace(
-            json_file=_json,
-            target_directory=targ,
-            substitutes_directory=SUBSTITUTES / key
-        )
-
-    # atualizar as pastas pro padrão
-    link_folders(
-        icon_pack_root=root,
-        flavor_name='kora/blue'
-    )
-
-run(LOCAL)
-run(REPO)
+link_folders(
+    icon_pack_root=Path('/mnt/seagate/symlinks/kde-user-icons/copycat'),
+    flavor='kora/yellow'
+)

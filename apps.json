@@ -78,7 +78,7 @@
     "blender": {
         "substitute": "blender",
         "targets": [
-            { "action": "symlink", "icon": "blender" },
+            { "action": "replace", "icon": "blender" },
             { "action": "symlink", "icon": "Blender" },
             { "action": "symlink", "icon": "blender-symbolic" },
             { "action": "symlink", "icon": "org.blender.Blender" }
@@ -87,7 +87,7 @@
     "obsidian": {
         "substitute": "kora_obsidian",
         "targets": [
-            { "action": "symlink", "icon": "obsidian" },
+            { "action": "replace", "icon": "obsidian" },
             { "action": "symlink", "icon": "md.obsidian.Obsidian" },
             { "action": "symlink", "icon": "appimagekit-obsidian" }
         ]
@@ -107,7 +107,7 @@
     "aseprite": {
         "substitute": "aseprite",
         "targets": [
-            { "action": "symlink", "icon": "aseprite" },
+            { "action": "replace", "icon": "aseprite" },
             { "action": "symlink", "icon": "lutris_aseprite" }
         ]
     },
@@ -231,13 +231,6 @@
             { "action": "replace", "icon": "kvantum" }
         ]
     },
-    "fspy": {
-        "substitute": "kora_fspy",
-        "targets": [
-            { "action": "replace", "icon": "fspy" },
-            { "action": "symlink", "icon": "appimagekit-fspy" }
-        ]
-    },
     "cmake": {
         "substitute": "kora_cmake",
         "targets": [
@@ -325,12 +318,6 @@
             { "action": "create", "icon": "java21-openjdk" }
         ]
     },
-    "trenchbroom": {
-        "substitute": "trenchbroom",
-        "targets": [
-            { "action": "create", "icon": "com.kristianduske.TrenchBroom" }
-        ]
-    },
     "animeeffects": {
         "substitute": "animeeffects",
         "targets": [
@@ -347,7 +334,8 @@
     "mail-apps": {
         "substitute": "papirus_internet-mail",
         "targets": [
-            { "action": "replace", "icon": "mail-generic" },
+            { "action": "create", "icon": "mail_generic" },
+            { "action": "symlink", "icon": "mail-generic" },
             { "action": "symlink", "icon": "claws-mail-128x128" },
             { "action": "symlink", "icon": "claws-mail-32x32" },
             { "action": "symlink", "icon": "claws-mail-64x64" },
@@ -376,7 +364,6 @@
             { "action": "symlink", "icon": "mail-notification" },
             { "action": "symlink", "icon": "mailnag" },
             { "action": "symlink", "icon": "mailru-mail.ru" },
-            { "action": "symlink", "icon": "mail_generic" },
             { "action": "symlink", "icon": "package_internet_email" },
             { "action": "symlink", "icon": "kmail" },
             { "action": "symlink", "icon": "kmail2" },
@@ -402,7 +389,6 @@
         "substitute": "calculator",
         "targets": [
             { "action": "replace", "icon": "accessories-calculator" },
-            { "action": "symlink", "icon": "calculator" },
             { "action": "symlink", "icon": "calculator" },
             { "action": "symlink", "icon": "calc" },
             { "action": "symlink", "icon": "deepin-calculator" },
