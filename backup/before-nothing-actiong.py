@@ -9,12 +9,9 @@ def link_folders(icon_pack_root: Path, flavor_name: str = 'kora/blue'):
     isso NÃO substitui o copysym. isso é só o ponto de partida pra fazer o icon pack base
     já usar o esquema de symlinks em vez de ícones reais no places
     """
-
-    # só o componente que fica entre o root do icon pack e os flavors em si
-    flavor_bridge = 'reserved/folder-flavors'
     
-    # o flavor passado pode conter estrutura, tipo kora/blue em vez de só blue
-    flavor = icon_pack_root / flavor_bridge / flavor_name
+    # o flavor passado pode conter estrutura, tipo kora/blue
+    flavor = icon_pack_root / 'reserved' / 'folder-flavors' / flavor_name
     if not flavor.exists() or not flavor.is_dir():
         logger.error(f'erro ao acessar o diretório do flavor: {flavor}')
         return
@@ -31,7 +28,7 @@ def link_folders(icon_pack_root: Path, flavor_name: str = 'kora/blue'):
             if f.name == p.name:
                 # usa ../../i.svg em vez de um path absoluto
                 # isso faz o symlink ser autocontido no icon pack e não quebrar fácil
-                relative = f'../../{flavor_bridge}/{flavor_name}/{f.name}'
+                relative = f'../../reserved/folder-flavors/{flavor_name}/{f.name}'
                 
                 p.unlink()
                 p.symlink_to(relative)
@@ -40,19 +37,15 @@ def link_folders(icon_pack_root: Path, flavor_name: str = 'kora/blue'):
         # pq esse ícone, no kora original, tá duplicado e não é um symlink
         # isso só faz ele apontar pro ícone "master", assim como todas as outras variações do desktop
         # o mesmo se aplica pros outros consertados dessa lista
-        # ex: isso faz places/folder-google-drive.svg apontar pra places/folder-gdrive.svg
         hard_copies = {
-            'gnome-desktop-config': 'user-desktop',
-            'folder-megasync': 'folder-mega',
-            'folder-google-drive': 'folder-gdrive'
+            'gnome-desktop-config.svg': 'user-desktop.svg',
+            'folder-megasync.svg': 'folder-mega.svg',
+            'folder-google-drive': 'folder-gdrive.svg'
         }
         for hc, master in hard_copies.items():
-            hc = normalize_svg_name(hc)
-            master = normalize_svg_name(master)
-
             if p.name == hc:
                 p.unlink()
-                p.symlink_to(master)
+                p.symlink_to(places / master)
                 logger.link(f'{hc} consertado')
 
 def normalize_svg_name(name: str) -> str:
@@ -158,29 +151,18 @@ def replace(
                 if not master:
                     logger.error(f'erro ao criar o symlink. um master ainda não foi definido para {icon}. o primeiro action de um target nunca deve ser um symlink')
                     continue
-                
-                # deletar o antigo arquivo/symlink que possivelmente existe no destino do symlink novo
+                    
                 link = destination
                 if link.exists() or link.is_symlink():
                     link.unlink()
 
-                # criar o symlink. usa só o name pq se assume que o symlink sempre está no mesmo diretório do master
-                # se isso não funcionar, deve ter um tratamento especial pra esse ícone que usa um caminho mais diferente
-                link.symlink_to(master.name)
-
-                if not link.exists() or not link.is_file():
-                    logger.error(f'{link} não foi criado como um symlink válido')
-                    continue
-
+                link.symlink_to(master)
                 logger.link(f'symlink {link} criado para {destination}')
             else:
-                # definir qualquer ação que não seja a de symlink como master
                 master = destination
                 logger.info(f'master definido como {master}')
 
             if action == 'remove':
-                master = None # só por segurança
-
                 try:
                     destination.unlink()
                     logger.success(f'{icon} deletado')
@@ -200,21 +182,15 @@ def run(root: Path = LOCAL):
         'places': root / 'places' /  'scalable' 
     }
 
-    # atualizar cada seção presente em um icon pack
+    # atualizar tanto os apps quanto os places
     # o places geralmente não envolve as pastas, já que o copysym é responsável por isso
-    #
-    # o json_file é onde se espera o mapa com todas as actions e informações necessárias pra cada substituição
     for key, targ in targets.items():
-        json_file = Path(f'{key}.json')
-        
-        substitutes = SUBSTITUTES / key
-        if not substitutes.exists() or not substitutes.is_dir():
-            continue
+        _json = Path(f'{key}.json')
 
         replace(
-            json_file=json_file,
+            json_file=_json,
             target_directory=targ,
-            substitutes_directory=substitutes
+            substitutes_directory=SUBSTITUTES / key
         )
 
     # atualizar as pastas pro padrão
