@@ -14,7 +14,7 @@ def link_folders(icon_pack_root: Path, flavor_name: str = 'kora/blue'):
     flavor_bridge = 'reserved/folder-flavors'
     
     # o flavor passado pode conter estrutura, tipo kora/blue em vez de só blue
-    flavor = icon_pack_root / flavor_bridge / flavor_name
+    flavor = icon_pack_root / 'copycat' / flavor_bridge / flavor_name
     if not flavor.exists() or not flavor.is_dir():
         logger.error(f'erro ao acessar o diretório do flavor: {flavor}')
         return
