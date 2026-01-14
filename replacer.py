@@ -192,7 +192,7 @@ def replace(
 
 LOCAL = Path('/mnt/seagate/symlinks/kde-user-icons/copycat')
 REPO = Path('/mnt/seagate/symlinks/copycat-repo/copycat')
-SUBSTITUTES = Path('/mnt/seagate/symlinks/copykit-data/data/substitutes')
+SUBSTITUTES = Path('/mnt/seagate/symlinks/copydb/substitutes')
 
 def run(root: Path = LOCAL):
     targets = {
