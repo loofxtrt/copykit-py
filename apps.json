@@ -142,7 +142,7 @@
         ]
     },
     "audacity": {
-        "substitute": "yosa-max_audacity",
+        "substitute": "audacity",
         "targets": [
             { "action": "replace", "icon": "audacity" },
             { "action": "symlink", "icon": "org.audacityteam.Audacity" },
@@ -166,16 +166,19 @@
         ]
     },
     "android-studio": {
-        "substitute": "fairywren_dark_android-studio",
+        "substitute": "morewaita_android-studio",
         "targets": [
             { "action": "replace", "icon": "android-studio" },
-            { "action": "symlink", "icon": "android-studio-beta" }
+            { "action": "symlink", "icon": "android-studio-beta" },
+            { "action": "symlink", "icon": "androidstudio" },
+            { "action": "symlink", "icon": "com.google.AndroidStudio" }
         ]
     },
     "android-studio-canary": {
-        "substitute": "fairywren_dark_android-studio-canary",
+        "substitute": "morewaita_android-studio-canary",
         "targets": [
-            { "action": "replace", "icon": "android-studio-canary" }
+            { "action": "replace", "icon": "android-studio-canary" },
+            { "action": "symlink", "icon": "androidstudio-preview" }
         ]
     },
     "btop": {
@@ -409,6 +412,20 @@
         "targets": [
             { "action": "replace", "icon": "filelight" },
             { "action": "symlink", "icon": "org.kde.filelight" }
+        ]
+    },
+    "flycast": {
+        "substitute": "kora_flycast",
+        "targets": [
+            { "action": "replace", "icon": "flycast" },
+            { "action": "symlink", "icon": "org.flycast.Flycast" }
+        ]
+    },
+    "qbittorrent": {
+        "substitute": "kora_qbittorrent",
+        "targets": [
+            { "action": "replace", "icon": "qbittorrent" },
+            { "action": "symlink", "icon": "org.qbittorrent.qBittorrent" }
         ]
     }
 }
