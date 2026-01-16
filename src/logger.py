@@ -3,7 +3,14 @@ from rich.text import Text
 from rich.markup import escape
 from rich.panel import Panel
 
-def message_formatter(message, level: str = 'info', with_background: bool = False, nerdfont_icon: str | None = None):
+# class LogBox():
+#     def __init__(self, title: str):
+#         self.panel = Panel(
+#             title=f'logbox for {title}',
+#             title_align='left'
+#         )
+
+def message_formatter(message, level: str = 'info', with_background: bool = False):
     lvl_colors = {
         'warning': 'yellow',
         'info': 'blue',
@@ -12,7 +19,7 @@ def message_formatter(message, level: str = 'info', with_background: bool = Fals
         'critical': 'red',
         'success': 'green',
         'skip': 'blue',
-        'link': 'blue'
+        'symlink': 'blue'
     }
 
     # formatar o indicador de level
@@ -22,8 +29,6 @@ def message_formatter(message, level: str = 'info', with_background: bool = Fals
     color = lvl_colors.get(level.lower(), 'blue')
     
     level = level.upper()
-    if nerdfont_icon is not None:
-        level = f'{nerdfont_icon} {level}'
     if with_background:
         # caso tenhha background, adicionar padding extra e o background em si
         level_display = f' {level} '
@@ -40,7 +45,6 @@ def message_formatter(message, level: str = 'info', with_background: bool = Fals
     # str é usado pra garantir que qualquer coisa seja printável
     message = escape(str(message))
     formatted = Text()
-    formatted.append(lvl_indicator + '\n') # por algum motivo, usar f{} faz a formatação do indicator sumir
 
     # se a mensagem tiver mais de uma linha, tratar essas linhas extras
     lines = message.splitlines()
@@ -57,7 +61,8 @@ def message_formatter(message, level: str = 'info', with_background: bool = Fals
 
     panel = Panel(
         formatted,
-        #title=lvl_indicator,
+        title=lvl_indicator,
+        title_align='left',
         border_style=color
     )
 
@@ -65,25 +70,25 @@ def message_formatter(message, level: str = 'info', with_background: bool = Fals
     console.print(panel)
 
 def warning(message):
-    message_formatter(message=message, level='warning', nerdfont_icon='')
+    message_formatter(message=message, level='warning')
 
 def error(message):
-    message_formatter(message=message, level='error', nerdfont_icon='')
+    message_formatter(message=message, level='error')
 
 def info(message):
-    message_formatter(message=message, level='info', nerdfont_icon='󰙎')
+    message_formatter(message=message, level='info')
 
 def skip(message):
-    message_formatter(message=message, level='skip', nerdfont_icon='󰦝')
+    message_formatter(message=message, level='skip')
 
 def success(message):
-    message_formatter(message=message, level='success', nerdfont_icon='󰒘')
+    message_formatter(message=message, level='success')
 
-def link(message):
-    message_formatter(message=message, level='link', nerdfont_icon='󰌷')
+def symlink(message):
+    message_formatter(message=message, level='symlink')
 
 def debug(message):
-    message_formatter(message=message, level='debug', with_background=True, nerdfont_icon='󰃤')
+    message_formatter(message=message, level='debug', with_background=True)
 
 def critical(message):
-    message_formatter(message=message, level='critical', with_background=True, nerdfont_icon='󰥓')
+    message_formatter(message=message, level='critical', with_background=True)

@@ -1,1 +1,2 @@
-python3 -m replace.py
+python3 -m src.replacer
+python3 .dev/verify.py
