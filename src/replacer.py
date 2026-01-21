@@ -160,4 +160,4 @@ def run(root: Path = PACK_LOCAL):
         )
 
 run(PACK_LOCAL)
-#run(PACK_REMOTE)
+run(PACK_REMOTE)
