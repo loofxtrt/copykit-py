@@ -1,7 +1,7 @@
 from pathlib import Path
 
 PACK_LOCAL = Path('/mnt/seagate/symlinks/kde-user-icons/copycat')
-PACK_REMOTE = Path('/mnt/seagate/symlinks/copycat-repo/copycat')
+PACK_REMOTE = Path('/mnt/seagate/recursos/copycat/copycat')
 SUBSTITUTES = Path('/mnt/seagate/symlinks/copydb/substitutes')
 INSTRUCTIONS = Path('/mnt/seagate/workspace/coding/projetos/scripts/copykit/instructions')
 

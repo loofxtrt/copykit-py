@@ -519,5 +519,13 @@
             { "action": "replace", "icon": "steamlink" },
             { "action": "symlink", "icon": "com.valvesoftware.SteamLink" }
         ]
+    },
+    "MusicBrainz Picard": {
+        "substitute": "picard",
+        "targets": [
+            { "action": "replace", "icon": "picard" },
+            { "action": "symlink", "icon": "org.musicbrainz.Picard" }
+        ],
+        "changes": "remade the icon based on the dmanager icon shape from KORA and drop picked the colors and inside shapes from PAPIRUS"
     }
 }
