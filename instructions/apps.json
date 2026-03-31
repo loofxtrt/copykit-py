@@ -178,7 +178,8 @@
             { "action": "symlink", "icon": "audacity16" },
             { "action": "symlink", "icon": "audacity32" }
         ],
-        "sources": ["SCRATCH", "inspired by https://forum.audacityteam.org/t/i-made-a-new-geometric-version-of-the-audacity-logo/149488", "colors from the bitwarden icon from KORA"]
+        "sources": ["https://fr.wikipedia.org/wiki/Fichier:Audacity_Logo.svg#/media/Fichier:Audacity_Logo_nofilter.svg"],
+        "changes": "adjusted colors, added gradients and normalized clip groups"
     },
     "VSCodium": {
         "substitute": "codium",
