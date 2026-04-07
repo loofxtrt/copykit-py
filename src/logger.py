@@ -3,12 +3,6 @@ from rich.text import Text
 from rich.markup import escape
 from rich.panel import Panel
 
-# class LogBox():
-#     def __init__(self, title: str):
-#         self.panel = Panel(
-#             title=f'logbox for {title}',
-#             title_align='left'
-#         )
 
 def message_formatter(message, level: str = 'info', with_background: bool = False):
     lvl_colors = {

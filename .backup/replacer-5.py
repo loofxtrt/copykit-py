@@ -29,24 +29,11 @@ class Substitute:
 
 @dataclass
 class Entry:
-    substitute: Optional[Substitute] # pode ser nulo se não precisar
-    targets: List[Target]
+    substitute: Optional[Substitute]
+    target: List[Target]
 
 
-@dataclass
-class Context:
-    id: str # pra identificação nos logs
-    target_parent: Path
-    substitute_parent: Path
-
-
-@dataclass
-class Mapping:
-    context: Context
-    entries: dict[str, Entry]
-
-
-def handle_create_or_replace(entry: Entry, target: Target, hard_replace: bool, skip_symlinks: bool):
+def handle_create_or_replace(entry: Entry, target: Target, hard_replace: bool):
     substitute = entry.substitute
 
     if not substitute:
@@ -74,7 +61,7 @@ def handle_create_or_replace(entry: Entry, target: Target, hard_replace: bool, s
 
 def handle_symlink(master: Path, target: Target):
     if not master:
-        logger.error(f'erro ao criar o symlink. um master ainda não foi definido para {target.icon}. o primeiro action de um target nunca deve ser um symlink')
+        logger.error(f'erro ao criar o symlink. um master ainda não foi definido para {icon}. o primeiro action de um target nunca deve ser um symlink')
         return
     
     # deletar o antigo arquivo/symlink que possivelmente existe no destino do symlink novo
@@ -125,150 +112,88 @@ def copy(substitute: Path, destination: Path, operation: str):
         logger.error(err)
 
 def replace(
-    mapping: Mapping,
+    json_file: Path,
+    target_directory: Path,
+    substitutes_directory: Path,
     skip_symlinks: bool = True,
     hard_replace: bool = True
     ):
-    target_parent = mapping.context.target_parent
-    substitute_parent = mapping.context.substitute_parent
-    id = mapping.context.id
-
-    if not target_parent.is_dir():
-        logger.error(f'{target_parent} não é um diretório')
+    if not target_directory.is_dir():
+        logger.error(f'{target_directory} não é um diretório')
         return
-    elif not substitute_parent.is_dir():
-        logger.error(f'{substitute_parent} não é um diretório')
+    elif not substitutes_directory.is_dir():
+        logger.error(f'{substitutes_directory} não é um diretório')
         return
-
-    entries = mapping.entries
-    if not entries:
-        logger.error(f'nenhuma entry presente em {id}')
-        return
-    for entry in mapping.entries.values():
-        targets = entry.targets
-        if not targets:
-            logger.error(f'nenhum target encontrado para substituir em {id}')
-            continue
     
+    with json_file.open('r', encoding='utf-8') as f:
+        data = json.load(f)
+    if not data:
+        logger.error(f'os dados obtidos de {json_file} são inválidos')
+        return
+
+    for key, entry in data.items():
+        targets = entry.get('targets')
+
+        if not targets:
+            logger.error(f'nenhum target encontrado para substituir {key}')
+            continue
+
+        substitute_name = entry.get('substitute') # pode ser nulo se não precisar
+        substitute_path = normalize_svg_name(substitute_name)
+        substitute_path = substitutes_directory / substitute_path
+
         # ícone que vai ser referenciado pelos possíveis symlinks
         # ele é definido com base no primeiro ícone que não tem a action como "symlink"
         master = None
 
         # reconstruir o caminho do ícone e fazer as mudanças
         for t in targets:
-            action = t.action
-            icon = t.icon
-
-            if not icon:
-                logger.error(f'target sem ícone em {id}')
-                continue
-
+            icon = t.get('icon')
+            action = t.get('action')
             if not action:
                 logger.error(f'ação não definida para {icon}')
                 continue
+
+            normalized = normalize_svg_name(icon) # não se espera que termine em svg, mas se terminar, não tem problema
+            destination = target_directory / normalized
 
             if action in ('create', 'replace'):
                 # o caminho do ícone substituto só precisa ser reconstruído quando a action exigir ele
                 # por isso esse if action in() é necessário, pra que outras acções que não precisem dele
                 # não façam toda entrada dos json obrigatoriamente ter um campo substitute
-                handle_create_or_replace(entry, t, hard_replace, skip_symlinks)
-
+                handle_create_or_replace()
+            if action == 'symlink':
+                handle_symlink(master)
+            else:
                 # definir qualquer ação que não seja a de symlink como master
-                # importante acontecer só depois da ação ter sido bem sucedida
-                master = t.path
+                master = destination
                 logger.info(f'master definido como {master}')
-            elif action == 'symlink':
-                handle_symlink(master, t)
-            elif action == 'remove':
+            if action == 'remove':
                 master = None # só por segurança
-                handle_remove(t)
-
-def resolve_context(data: dict, file: Path) -> Context:
-    raw_context = data.get('context')
-    if not raw_context:
-        raise ValueError(f'contexto não definido ({file.name})')
-
-    id = raw_context.get('id')
-    if not id:
-        raise ValueError(f'id não definido ({file.name})')
-    
-    raw_target_parent = raw_context.get('target-parent')
-    raw_substitute_parent = raw_context.get('substitute-parent')
-
-    if 'ROOT' not in raw_target_parent:
-        raise ValueError(f"'ROOT' precisa estar presente em target-parent ({id})")
-    
-    if 'SUBSTITUTES' not in raw_substitute_parent:
-        raise ValueError(f"'SUBSTITUTES' precisa estar presente em substitute-parent ({id})")
-    
-    target_parent = Path(raw_target_parent.replace('ROOT', str(PACK_LOCAL)))
-    substitute_parent = Path(raw_substitute_parent.replace('SUBSTITUTES', str(SUBSTITUTES)))
-
-    return Context(
-        id=id,
-        target_parent=target_parent,
-        substitute_parent=substitute_parent
-    )
-
-def resolve_mapping(json_file: Path) -> Mapping:
-    if not json_file.is_file():
-        return
-    
-    with json_file.open('r', encoding='utf-8') as f:
-        data = json.load(f)
-    if not data:
-        logger.error(f'os dados obtidos de {json_file.name} são inválidos')
-        return
-    
-    try:
-        context = resolve_context(data, json_file)
-    except ValueError as err:
-        logger.error(err)
-        return
-
-    entries = {}
-    for key, raw_entry in data.get('entries', {}).items():
-        sbt_name = raw_entry.get('substitute')
-        substitute = None
-        
-        if sbt_name:
-            sbt_path=context.substitute_parent / normalize_svg_name(sbt_name)
-            substitute = Substitute(name=sbt_name, path=sbt_path)
-        
-        targets = []
-        for raw_target in raw_entry.get('targets', []):
-            icon = raw_target.get('icon')
-            action = raw_target.get('action')
-
-            if not icon or not action:
-                logger.error(f'target inválido em {context.id}')
-            
-            path = context.target_parent / normalize_svg_name(icon)
-            targets.append(Target(
-                icon=icon,
-                action=action,
-                path=path
-            ))
-        
-        entry = Entry(
-            substitute=substitute,
-            targets=targets
-        )
-        entries[key] = entry
-
-    mapping = Mapping(
-        context=context,
-        entries=entries
-    )
-    return mapping
+                handle_remove()
 
 def run(root: Path = PACK_LOCAL):
-    for f in INSTRUCTIONS.iterdir():
-        mapping = resolve_mapping(f)
-        if not mapping:
+    targets = {
+        'apps': root / 'apps' / 'scalable',
+        'places': root / 'places' /  'scalable' 
+    }
+
+    # atualizar cada seção presente em um icon pack
+    # o places geralmente não envolve as pastas, já que o copysym é responsável por isso
+    #
+    # o json_file é onde se espera o mapa com todas as actions e informações necessárias pra cada substituição
+    for key, targ in targets.items():
+        json_file = INSTRUCTIONS / normalize_json_name(key)
+        
+        substitutes = SUBSTITUTES / key
+        if not substitutes.exists() or not substitutes.is_dir():
             continue
 
-        replace(mapping)
+        replace(
+            json_file=json_file,
+            target_directory=targ,
+            substitutes_directory=substitutes
+        )
 
 run(PACK_LOCAL)
 # run(PACK_REMOTE)
