@@ -37,7 +37,7 @@ class Entry:
 class Context:
     id: str # pra identificação nos logs
     target_parent: Path
-    substitute_parent: Optional[Path] # pode ser nulo se não precisar
+    substitute_parent: Path
 
 
 @dataclass
@@ -136,11 +136,9 @@ def replace(
     if not target_parent.is_dir():
         logger.error(f'{target_parent} não é um diretório')
         return
-    
-    if substitute_parent is not None:
-        if not substitute_parent.is_dir():
-            logger.error(f'{substitute_parent} está presente, mas não é um diretório')
-            return
+    elif not substitute_parent.is_dir():
+        logger.error(f'{substitute_parent} não é um diretório')
+        return
 
     entries = mapping.entries
     if not entries:
@@ -193,20 +191,18 @@ def resolve_context(data: dict, file: Path) -> Context:
     id = raw_context.get('id')
     if not id:
         raise ValueError(f'id não definido ({file.name})')
-
+    
     raw_target_parent = raw_context.get('target-parent')
+    raw_substitute_parent = raw_context.get('substitute-parent')
+
     if 'ROOT' not in raw_target_parent:
         raise ValueError(f"'ROOT' precisa estar presente em target-parent ({id})")
     
+    if 'SUBSTITUTES' not in raw_substitute_parent:
+        raise ValueError(f"'SUBSTITUTES' precisa estar presente em substitute-parent ({id})")
+    
     target_parent = Path(raw_target_parent.replace('ROOT', str(PACK_LOCAL)))
-    substitute_parent = None
-
-    raw_substitute_parent = raw_context.get('substitute-parent')
-    if raw_substitute_parent:
-        if 'SUBSTITUTES' not in raw_substitute_parent:
-            raise ValueError(f"'SUBSTITUTES' precisa estar presente em substitute-parent ou ser completamente nulo ({id})")
-        
-        substitute_parent = Path(raw_substitute_parent.replace('SUBSTITUTES', str(SUBSTITUTES)))
+    substitute_parent = Path(raw_substitute_parent.replace('SUBSTITUTES', str(SUBSTITUTES)))
 
     return Context(
         id=id,
