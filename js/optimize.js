@@ -2,8 +2,11 @@ import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { basename, join } from 'path';
 import { optimize } from 'svgo';
 
-// pega o caminho passado no terminal
+// args obrigatórios
 const inputPath = process.argv[2];
+const outputDir = process.argv[3];
+
+// sem validação extra — vai quebrar se faltar
 
 // lê o SVG
 const svg = readFileSync(inputPath, 'utf-8');
@@ -24,8 +27,6 @@ const result = optimize(svg, {
         }
       }
     },
-
-    // limpeza equivalente ao SVGOMG
     {
       name: 'cleanupIds',
       params: {
@@ -43,11 +44,11 @@ const result = optimize(svg, {
   ]
 });
 
-// cria pasta optimized se não existir
-mkdirSync('optimized', { recursive: true });
+// cria pasta de saída
+mkdirSync(outputDir, { recursive: true });
 
-// nome do arquivo final
-const outputPath = join('optimized', basename(inputPath));
+// monta caminho final
+const outputPath = join(outputDir, basename(inputPath));
 
 // salva
 writeFileSync(outputPath, result.data);
