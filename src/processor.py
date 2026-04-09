@@ -10,6 +10,14 @@ def _svg_is_valid(file: Path) -> bool:
     return True
 
 def optimize_svgs(parent: Path):
+    """
+    otimiza todos os svgs de um diretório via svgo
+    
+    args:
+        parent:
+            diretório a ser iterado
+    """
+
     if not parent.is_dir():
         return
     
@@ -27,6 +35,21 @@ def optimize_svgs(parent: Path):
         )
 
 def recolor_directories(parent: Path, base_palette: dict, new_palette: dict):
+    """
+    substitui as cores de todos os svgs de um diretório
+    pensado pra ser usado com ícones de diretórios
+
+    args:
+        parent:
+            diretório que deve ser iterado
+        
+        base_palette:
+            paleta base, a que já tá nos ícones do parent
+        
+        new_palette:
+            paleta que vai substituir a base
+    """
+
     if not parent.is_dir():
         return
     
@@ -46,13 +69,15 @@ def recolor_directories(parent: Path, base_palette: dict, new_palette: dict):
         output.mkdir(exist_ok=True, parents=True)
         print(output.resolve())
 
+        # ler os dados e reescrever eles
         with svg.open('r', encoding='utf-8'):
             data = svg.read_text()
         
         data = data.replace(base_light, new_light)
         data = data.replace(base_dark, new_dark)
         data = data.replace(base_background, new_background)
-        
+
+        # salvar as mudanças
         final = output / svg.name
         with final.open('w', encoding='utf-8'):
             final.write_text(data)
