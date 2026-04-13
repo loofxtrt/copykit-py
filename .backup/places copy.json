@@ -60,7 +60,11 @@
                 { "action": "remove", "icon": "folder-add" },
                 { "action": "remove", "icon": "folder-activities" },
                 { "action": "remove", "icon": "folder-nextcloud" },
-                { "action": "remove", "icon": "bookmark-missing" },
+                { "action": "remove", "icon": "bookmark-missing" }
+            ]
+        },
+        "mass-remove-secondary": {
+            "targets": [
                 { "action": "remove", "icon": "application-x-gnome-saved-search" },
                 { "action": "remove", "icon": "certificate-server" },
                 { "action": "remove", "icon": "folder_2" },
@@ -92,8 +96,7 @@
                 { "action": "remove", "icon": "folder-onedrive" },
                 { "action": "remove", "icon": "folder-temp" },
                 { "action": "remove", "icon": "folder-yandex-disk" }
-            ],
-            "changes": "removed to simplify maintance"
+            ]
         },
         "mass-remove-colors": {
             "targets": [
@@ -108,8 +111,7 @@
                 { "action": "remove", "icon": "folder-red" },
                 { "action": "remove", "icon": "folder-yellow" },
                 { "action": "remove", "icon": "folder-violet" }
-            ],
-            "changes": "removed to simplify maintance"
+            ]
         },
         "folder": {
             "substitute": "folder",
