@@ -64,14 +64,10 @@ class Entry:
 
     	targets:
     		lista de targets que serão processados
-        
-        symlink_to:
-            pra onde o symlink deve apontar. só é necessário se a action do target for 'symlink' 
     """
 
     substitute: Optional[Substitute] # pode ser nulo se não precisar
     targets: List[Target]
-    symlink_to: Optional[str]
 
 
 @dataclass
@@ -156,12 +152,12 @@ def handle_create_or_replace(entry: Entry, target: Target, hard_replace: bool, s
     elif target.action == 'create':
         copy(substitute=substitute.path, destination=target.path, operation='criado')
 
-def handle_symlink(symlink_to: Path, target: Target):
+def handle_symlink(master: Path, target: Target):
     """
     cria um symlink apontando para o arquivo master previamente definido
 
     args:
-    	symlink_to:
+    	master:
     		caminho do arquivo que será referenciado pelo symlink
 
     	target:
@@ -169,8 +165,8 @@ def handle_symlink(symlink_to: Path, target: Target):
     """
     
     # symlink depende de um arquivo base previamente definido
-    if not symlink_to:
-        logger.error(f'erro ao criar o symlink. um symlink-to ainda não foi definido para {target.icon}')
+    if not master:
+        logger.error(f'erro ao criar o symlink. um master ainda não foi definido para {target.icon}. o primeiro action de um target nunca deve ser um symlink')
         return
     
     # deletar o antigo arquivo/symlink que possivelmente existe no destino do symlink novo
@@ -178,9 +174,9 @@ def handle_symlink(symlink_to: Path, target: Target):
     if link.exists() or link.is_symlink():
         link.unlink()
 
-    # criar o symlink
-    symlink_to = normalize_svg_name(symlink_to)
-    link.symlink_to(symlink_to)
+    # criar o symlink. usa só o name pq se assume que o symlink sempre está no mesmo diretório do master
+    # se isso não funcionar, deve ter um tratamento especial pra esse ícone que usa um caminho mais diferente
+    link.symlink_to(master.name)
 
     if not link.exists() or not link.is_file():
         logger.error(f'{link} não foi criado como um symlink válido')
@@ -279,6 +275,10 @@ def replace(
         if not targets:
             logger.error(f'nenhum target encontrado para substituir em {id}')
             continue
+    
+        # ícone que vai ser referenciado pelos possíveis symlinks
+        # ele é definido com base no primeiro ícone que não tem a action como "symlink"
+        master = None
 
         # reconstruir o caminho do ícone e fazer as mudanças
         for t in targets:
@@ -298,15 +298,15 @@ def replace(
                 # por isso esse if action in() é necessário, pra que outras acções que não precisem dele
                 # não façam toda entrada dos json obrigatoriamente ter um campo substitute
                 handle_create_or_replace(entry, t, hard_replace, skip_symlinks)
-            elif action == 'symlink':
-                symlink_to = entry.symlink_to
 
-                if symlink_to:
-                    logger.info(f'symlink-to definido como {symlink_to}')
-                    handle_symlink(symlink_to, t)
-                else:
-                    logger.info(f'symlink-to não definido para {id}')
+                # definir qualquer ação que não seja a de symlink como master
+                # importante acontecer só depois da ação ter sido bem sucedida
+                master = t.path
+                logger.info(f'master definido como {master}')
+            elif action == 'symlink':
+                handle_symlink(master, t)
             elif action == 'remove':
+                master = None # só por segurança
                 handle_remove(t)
 
 def resolve_context(data: dict, file: Path) -> Context:
@@ -385,10 +385,6 @@ def resolve_mapping(json_file: Path) -> Mapping:
         substitute = None
         
         if sbt_name:
-            if not context.substitute_parent:
-                logger.warning(f'substitute definido, mas substitute-parent é inválido ({context.id})')
-                continue
-
             sbt_path=context.substitute_parent / normalize_svg_name(sbt_name)
             substitute = Substitute(name=sbt_name, path=sbt_path)
         
@@ -400,7 +396,6 @@ def resolve_mapping(json_file: Path) -> Mapping:
 
             if not icon or not action:
                 logger.error(f'target inválido em {context.id}')
-                continue
             
             path = context.target_parent / normalize_svg_name(icon)
             targets.append(Target(
@@ -408,15 +403,11 @@ def resolve_mapping(json_file: Path) -> Mapping:
                 action=action,
                 path=path
             ))
-
-        # resolver o ponteiro do symlink (se presente)
-        symlink_to = raw_entry.get('symlink-to')
         
         # finalizar a criação da entry e adicionar ela na lista final
         entry = Entry(
             substitute=substitute,
-            targets=targets,
-            symlink_to=symlink_to
+            targets=targets
         )
         entries[key] = entry
 

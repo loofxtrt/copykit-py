@@ -82,17 +82,17 @@ def recolor_directories(parent: Path, base_palette: dict, new_palette: dict):
         with final.open('w', encoding='utf-8'):
             final.write_text(data)
 
-#optimize_svgs(Path('/mnt/seagate/symlinks/copydb/prototipos/2026-04-01_02_diretorios-baseados-no-breeze-porem-preenchidos/'))
-recolor_directories(
-    parent=Path('/mnt/seagate/symlinks/copydb/prototipos/2026-04-01_02_diretorios-baseados-no-breeze-porem-preenchidos/optimized'),
-    base_palette={
-        'dark': '1075f6',
-        'light': '12c5ff',
-        'background': '0083d5'
-    },
-    new_palette={
-        'dark': 'fce080',
-        'light': 'fee69d',
-        'background': 'ecc359'
-    }
-)
+# optimize_svgs(Path('/mnt/seagate/symlinks/copydb/prototipos/2026-04-01_02_diretorios-baseados-no-breeze-porem-preenchidos/'))
+# recolor_directories(
+#     parent=Path('/mnt/seagate/symlinks/copydb/prototipos/2026-04-01_02_diretorios-baseados-no-breeze-porem-preenchidos/optimized'),
+#     base_palette={
+#         'dark': '1075f6',
+#         'light': '12c5ff',
+#         'background': '0083d5'
+#     },
+#     new_palette={
+#         'dark': 'fce080',
+#         'light': 'fee69d',
+#         'background': 'ecc359'
+#     }
+# )

@@ -128,6 +128,7 @@
         },
         "folder-pictures": {
             "substitute": "folder-pictures",
+            "symlink-to": "folder-pictures",
             "targets": [
                 { "action": "replace", "icon": "folder-pictures" },
                 { "action": "symlink", "icon": "folder-image" },
@@ -136,6 +137,7 @@
         },
         "folder-home": {
             "substitute": "folder-home",
+            "symlink-to": "user-home",
             "targets": [
                 { "action": "replace", "icon": "user-home" },
                 { "action": "symlink", "icon": "user-home-open" }
@@ -149,9 +151,11 @@
         },
         "folder-music": {
             "substitute": "folder-music",
+            "symlink-to": "folder-music",
             "targets": [
                 { "action": "replace", "icon": "folder-music" },
-                { "action": "symlink", "icon": "folder-music-open" }
+                { "action": "symlink", "icon": "folder-music-open" },
+                { "action": "symlink", "icon": "stock_music-library" }
             ]
         },
         "folder-download": {
@@ -168,6 +172,7 @@
         },
         "folder-templates": {
             "substitute": "folder-templates",
+            "symlink-to": "folder-templates",
             "targets": [
                 { "action": "replace", "icon": "folder-templates" },
                 { "action": "symlink", "icon": "folder-templates-open" }
@@ -175,6 +180,7 @@
         },
         "folder-publicshare": {
             "substitute": "folder-publicshare",
+            "symlink-to": "folder-publicshare",
             "targets": [
                 { "action": "replace", "icon": "folder-publicshare" },
                 { "action": "symlink", "icon": "folder-publicshare-open" }
@@ -199,8 +205,15 @@
         },
         "folder-network": {
             "substitute": "folder-network",
+            "symlink-to": "folder-network",
             "targets": [
-                { "action": "replace", "icon": "folder-network" }
+                { "action": "replace", "icon": "folder-network" },
+                { "action": "symlink", "icon": "network" },
+                { "action": "symlink", "icon": "network_local" },
+                { "action": "symlink", "icon": "network-manager" },
+                { "action": "symlink", "icon": "network-server" },
+                { "action": "symlink", "icon": "network-workgroup" },
+                { "action": "symlink", "icon": "repository" }
             ]
         },
         "folder-drag-accept": {
