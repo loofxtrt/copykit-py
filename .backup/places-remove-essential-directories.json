@@ -124,7 +124,7 @@
                 { "action": "replace", "icon": "user-desktop" }
             ],
             "sources": ["FLATERY"],
-            "changes": "inspired by FLATERY user-desktop"
+            "changes": "inspired by FLATERY desktop icon"
         },
         "folder-pictures": {
             "substitute": "folder-pictures",
@@ -133,9 +133,7 @@
                 { "action": "replace", "icon": "folder-pictures" },
                 { "action": "symlink", "icon": "folder-image" },
                 { "action": "symlink", "icon": "folder-pictures-open" }
-            ],
-            "sources": ["PAPIRUS"],
-            "changes": "changed glyph to PAPIRUS folder-pictures glyph"
+            ]
         },
         "folder-home": {
             "substitute": "folder-home",
@@ -143,22 +141,19 @@
             "targets": [
                 { "action": "replace", "icon": "user-home" },
                 { "action": "symlink", "icon": "user-home-open" }
-            ],
-            "sources": ["PAPIRUS"],
-            "changes": "changed glyph to PAPIRUS user-home glyph"
+            ]
         },
         "folder-videos": {
             "substitute": "folder-videos",
             "targets": [
                 { "action": "replace", "icon": "folder-videos" }
-            ],
-            "sources": ["SCRATCH"]
+            ]
         },
         "folder-music": {
             "substitute": "folder-music",
-            "symlink-to": "folder",
+            "symlink-to": "folder-music",
             "targets": [
-                { "action": "symlink", "icon": "folder-music" },
+                { "action": "replace", "icon": "folder-music" },
                 { "action": "symlink", "icon": "folder-music-open" },
                 { "action": "symlink", "icon": "stock_music-library" }
             ]
@@ -167,15 +162,12 @@
             "substitute": "folder-download",
             "targets": [
                 { "action": "replace", "icon": "folder-download" }
-            ],
-            "sources": ["SCRATCH", "BREEZE"],
-            "changes": "modified BREEZE folder-download arrow"
+            ]
         },
         "folder-documents": {
             "substitute": "folder-documents",
-            "symlink-to": "folder",
             "targets": [
-                { "action": "symlink", "icon": "folder-documents" }
+                { "action": "replace", "icon": "folder-documents" }
             ]
         },
         "folder-templates": {
@@ -184,9 +176,7 @@
             "targets": [
                 { "action": "replace", "icon": "folder-templates" },
                 { "action": "symlink", "icon": "folder-templates-open" }
-            ], 
-            "sources": ["MARWAITA"],
-            "changes": "changed glyph to MARWAITA folder-templates glyph"
+            ]
         },
         "folder-publicshare": {
             "substitute": "folder-publicshare",
@@ -211,7 +201,7 @@
                 { "action": "replace", "icon": "folder-remote" }
             ],
             "sources": ["ADWAITA"],
-            "changes": "added a bottom connection cable from ADWAITA folder-remote"
+            "changes": "added a bottom connection cable from ADWAITA"
         },
         "folder-network": {
             "substitute": "folder-network",
@@ -230,8 +220,7 @@
             "substitute": "folder-drag-accept",
             "targets": [
                 { "action": "replace", "icon": "folder-drag-accept" }
-            ],
-            "changes": "removed the secondary gradient to make it compatible with recoloring"
+            ]
         },
         "folder-open": {
             "substitute": "folder-open",
@@ -239,7 +228,7 @@
                 { "action": "replace", "icon": "folder-open" }
             ],
             "sources": ["FLUENT"],
-            "changes": "inspired by FLUENT folder-open icon"
+            "changes": "inspired by FLUENT open folder icon"
         },
         "folder-visiting": {
             "substitute": "folder-visiting",

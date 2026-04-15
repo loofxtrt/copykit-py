@@ -5,6 +5,18 @@
         "substitute-parent": "SUBSTITUTES/mimetypes"
     },
     "entries": {
+        "document": {
+            "targets": [
+                { "action": "replace", "icon": "application-document" }
+            ],
+            "substitute": "text"
+        },
+        "json": {
+            "targets": [
+                { "action": "replace", "icon": "application-json" }
+            ],
+            "substitute": "json"
+        },
         "zip": {
             "targets": [
                 { "action": "replace", "icon": "zip" },
@@ -31,9 +43,7 @@
                 { "action": "symlink", "icon": "application-x-tzo" }
             ],
             "symlink-to": "zip",
-            "substitute": "zip",
-            "sources": ["YOSAMAX", "QOGIR"],
-            "changes": "changed colors, simplified the tape, added QOGIR details on top of it"
+            "substitute": "zip"
         }
     }
 }
